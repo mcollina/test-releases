@@ -20,6 +20,8 @@ jobs:
         with:
           node-version: '18'
           registry-url: 'https://registry.npmjs.org'
+      - name: bump version
+        run: echo ${{ inputs.version }} > version
       - name: GIT commit and push all changed files
         run: |
           git config --global user.name "mcollina"
