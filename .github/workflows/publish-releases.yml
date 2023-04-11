@@ -1,0 +1,33 @@
+name: Publish releases
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'The version number to tag and release'
+        required: true
+        type: string
+
+jobs:
+  release-npm:
+    runs-on: ubuntu-latest
+    environment: main
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          registry-url: 'https://registry.npmjs.org'
+      - name: GIT commit and push all changed files
+        run: |
+          git config --global user.name "mcollina"
+          git config --global user.email "hello@matteocollina.com"
+          git commit -a -m "Bumped ${{ inputs.version }}"
+          git tag 
+          git push origin HEAD:main
+      - name: create release
+        run: |
+          npm i @matteo.collina/release-notes -g
+          release-nots -t ${{ inputs.version }}
