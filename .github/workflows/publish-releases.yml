@@ -33,4 +33,4 @@ jobs:
       - name: create release
         run: |
           npm i @matteo.collina/release-notes -g
-          release-nots -t ${{ inputs.version }}
+          release-notes -t ${{ inputs.version }}
